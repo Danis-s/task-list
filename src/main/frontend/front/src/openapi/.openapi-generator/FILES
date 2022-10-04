@@ -1,0 +1,11 @@
+.openapi-generator-ignore
+apis/TaskControllerApi.ts
+apis/index.ts
+index.ts
+models/PageTask.ts
+models/PageableObject.ts
+models/Sort.ts
+models/Task.ts
+models/TaskSo.ts
+models/index.ts
+runtime.ts
