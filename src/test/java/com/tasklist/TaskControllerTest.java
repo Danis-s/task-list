@@ -89,4 +89,13 @@ public class TaskControllerTest {
                 .andDo(print())
                 .andExpect(status().isAccepted());
     }
+    @Test
+    public void delete() throws Exception {
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                .delete("http://localhost:8080/api/task/{id}", taskId);
+        mvc.perform(builder)
+                .andExpect(status().isOk());
+    }
+    public void changeStatus() throws Exception {
+    }
 }
