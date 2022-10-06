@@ -7,9 +7,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Task")
+@SequenceGenerator(name = "sg_application", sequenceName = "sq_application", allocationSize = 1, initialValue = 10)
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sg_application")
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -25,7 +26,7 @@ public class Task {
     @Column(name = "edited")
     private LocalDateTime edited;
 
-    @Column(name = "taskStatus")
+    @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 
