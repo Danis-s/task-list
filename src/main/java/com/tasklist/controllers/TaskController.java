@@ -48,20 +48,21 @@ public class TaskController {
         return new ResponseEntity<>(taskService.getAllTasks(pageable), HttpStatus.OK);
     }
     @GetMapping(value = "/task/{id}")
-    public Optional<Task> getTaskById(@PathVariable Long id){
-        return taskService.getById(id);
+    public ResponseEntity<Optional<Task>> getTaskById(@PathVariable Long id){
+        return new ResponseEntity<>(taskService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping(value = "/task/{id}")
-    public TaskSo editTask(@PathVariable Long id,@Valid @RequestBody TaskSo taskSo){
-        return taskService.editTask(id, taskSo);
+    public ResponseEntity<TaskSo> editTask(@PathVariable Long id,@Valid @RequestBody TaskSo taskSo){
+        return new ResponseEntity<>(taskService.editTask(id, taskSo), HttpStatus.ACCEPTED);
     }
     @PutMapping(value = "/task-status/{id}")
     public ResponseEntity<Task> changeStatus(@PathVariable Long id, @RequestParam TaskStatus taskStatus){
         return new ResponseEntity<>(taskService.changeStatus(id, taskStatus), HttpStatus.OK);
     }
     @DeleteMapping(value = "/task/{id}")
-    public void deleteTask(@PathVariable Long id){
+    public ResponseEntity deleteTask(@PathVariable Long id){
         taskService.deleteTask(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

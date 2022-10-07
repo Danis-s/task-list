@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         webEnvironment = SpringBootTest.WebEnvironment.MOCK
 )
 @DirtiesContext
+@Sql({"/db/data.sql"})
 public class TaskControllerTest {
 
     protected ObjectMapper objectMapper = JsonMapper.builder()
@@ -58,7 +60,7 @@ public class TaskControllerTest {
                 .get("http://localhost:8080/api/task/{id}", taskId)
                 .contentType(MediaType.APPLICATION_JSON_VALUE);
         mvc.perform(builder)
-//                .andExpect(jsonPath("$.taskId").isNotEmpty())
+                .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(status().isOk());
     }
 
@@ -74,17 +76,26 @@ public class TaskControllerTest {
         mvc.perform(builder)
                 .andExpect(status().isCreated());
     }
-//    @Test
-//    public void editTask() throws Exception {
-//        TaskSo taskSo = new TaskSo();
-//        taskSo.setTitle("testTitle");
-//        taskSo.setDescription("testDescription");
-//        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
-//                .put("http://localhost:8080/api/task/{id}", taskId)
-//                .content(asJsonString(taskSo))
-//                .contentType(MediaType.APPLICATION_JSON_VALUE);
-//        mvc.perform(builder)
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void editTask() throws Exception {
+        TaskSo taskSo = new TaskSo();
+        taskSo.setTitle("testTitle");
+        taskSo.setDescription("testDescription");
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                .put("http://localhost:8080/api/task/{id}", taskId)
+                .content(asJsonString(taskSo))
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
+        mvc.perform(builder)
+                .andDo(print())
+                .andExpect(status().isAccepted());
+    }
+    @Test
+    public void delete() throws Exception {
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders
+                .delete("http://localhost:8080/api/task/{id}", taskId);
+        mvc.perform(builder)
+                .andExpect(status().isOk());
+    }
+    public void changeStatus() throws Exception {
+    }
 }
