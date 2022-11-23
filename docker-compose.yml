@@ -22,6 +22,11 @@ services:
       DB_URL: jdbc:postgresql://db:5432/postgres
       DB_USER: postgres
       DB_PASSWORD: postgres
+
+  frontend:
+    image: frontend/front/.
+    ports:
+    - "9091:80"
 volumes:
   db:
     driver: local
