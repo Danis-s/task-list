@@ -24,9 +24,11 @@ services:
       DB_PASSWORD: postgres
 
   frontend:
-    image: frontend/front/.
+    image: nginx:1.17.8
+    volumes:
+      - ./src/main/frontend:/code
     ports:
-    - "9091:80"
+      - "9090:9090"
 volumes:
   db:
     driver: local
